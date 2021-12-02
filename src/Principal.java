@@ -3,9 +3,9 @@
 
 import javax.swing.JOptionPane;
 
-import dominio.Tarjeta;
+
 import dominio.Usuario;
-import service.TarjetaService;
+
 import service.UsuarioService;
 
 
@@ -17,72 +17,78 @@ import service.UsuarioService;
 		public static void main (String[] Args) {
 			
           
-           int opciones;
+          String opciones;
          
 			UsuarioService usuarioService = new UsuarioService();
-			TarjetaService tarjetaService = new TarjetaService();
-			
-			
-			opciones = Integer.parseInt(JOptionPane.showInputDialog("Bienvedino a Mercado Pago! \n Para registrarse ingrese - 1 - \n"
-					+ "Para logearse ingrese - 2 - \n Para salir ingrese - 3 - "));
 			
 			
 			
-			  while(opciones != 3) {
+			
+			opciones = JOptionPane.showInputDialog("Bienvedino a Mercado Pago! \n Para registrarse ingrese - 1 - \n"
+					+ "Para logearse ingrese - 2 - \n Para salir ingrese - 3 - ");
+			
+			
+			
+			  while(!opciones.equalsIgnoreCase("3")) {
 				
 				
 				
-				if(opciones == 1) {
+				if(opciones.equalsIgnoreCase("1")) {
 					
 					
 					String email = JOptionPane.showInputDialog("Ingrese un email: ");
 					String password = JOptionPane.showInputDialog("Ingrese un password: ");
+					double saldo = Double.parseDouble(JOptionPane.showInputDialog("Ingrese su saldo disponible: "));
 					
+				  Usuario usuario = new Usuario(email, password, saldo);
+				  
 					
-					
-					 String mensajeOperacionExitosa = usuarioService.registroUsuario(new Usuario(email, password));
+					 String mensajeOperacionExitosa = usuarioService.registroUsuario(usuario);
 					
 					
 					System.out.println(mensajeOperacionExitosa);
 					
 					
 					
+					
+					
 				}// fin del if registro opcion 1
 				
 				
-				if (opciones == 2 ) {
+				if (opciones.equalsIgnoreCase("2")) {
 					
 					String email = JOptionPane.showInputDialog("Ingrese un email: ");
 					String password = JOptionPane.showInputDialog("Ingrese un password: ");
 					
-					Usuario usuario = new Usuario(email,password);
 					
-					boolean esValido = usuarioService.validarUsuario(usuario);
+					
+					boolean esValido = usuarioService.validarUsuario(email,password);
 					
 					
 					if(esValido) {
 						
 						
-						System.out.print(" El usuario " + usuario.getEmail() + " fue logeado exitosamente.");
+						System.out.print(" El usuario " + email + " fue logeado exitosamente.");
 						
 						
 						JOptionPane.showMessageDialog(null,"Bienvenido a Mercado Pago, aqui podras transferir dinero con otros usuarios, \n"
 								+ "Pagar y/o hacer recargas en tu celular, pagar tus servicios de agua y luz entre otros. \n"
 								+ "Empecemos! ");
 						
-						int opcionesFuncionalidades = Integer.parseInt(JOptionPane.showInputDialog("Si desea editar su email y/o password ingrese - 1 - \n"
+						String opcionesFuncionalidades = JOptionPane.showInputDialog("Si desea editar su email y/o password ingrese - 1 - \n"
 								+ "Si desea eliminar su usuario ingrese - 2 - \n"
-								+ "Para ingresar una nueva tarjeta ingrese - 3 - \n"
-								+ "Para eliminar una tarjeta ingrese - 4 - \n"
-								+ "Para realizar una transferenica ingrese - 5 - \n"
-								+ "Para continuar ingrese - 6 - "));
+								+ "Para pagar un factura ingrese - 3 -  \n"
+								+ "Para continuar ingrese - 4 - ");
 								
-						while (opcionesFuncionalidades != 6) {
+						while (!opcionesFuncionalidades.equalsIgnoreCase("4")) {
 							
-							if(opcionesFuncionalidades == 1) {
+							if(opcionesFuncionalidades.equalsIgnoreCase("1")) {
 								
 								
-								usuarioService.editarUsuario(usuario); 
+								 email = JOptionPane.showInputDialog("Ingrese un email nuevo: ");
+							     password = JOptionPane.showInputDialog("Ingrese un nuevo password: ");
+								
+								usuarioService.editarUsuario(email,password); 
 								
 								
 								System.out.println(" Su usuario ha sido editado exitosamente.");
@@ -91,7 +97,7 @@ import service.UsuarioService;
 							}//fin del if editar
 							
 							
-							if(opcionesFuncionalidades == 2) {
+							if(opcionesFuncionalidades.equalsIgnoreCase("2")) {
 								
 								
 								usuarioService.eliminarUsuarioPorEmail(email);
@@ -103,63 +109,29 @@ import service.UsuarioService;
 							
 
 								
-								if(opcionesFuncionalidades == 3) {
+								if(opcionesFuncionalidades.equalsIgnoreCase("3")) {
 									
-									int numeroDeCuenta = Integer.parseInt(JOptionPane.showInputDialog("Ingrese su numero de cuenta: "));
-									String clave = JOptionPane.showInputDialog("Ingrese la clave de seguridad de su tarjeta: ");
-									int saldo = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el saldo de su tarjeta: "));
+									email = JOptionPane.showInputDialog("Ingrese el email del usuario con el cual desea abonar");
 									
-									Tarjeta tarjeta = new Tarjeta(numeroDeCuenta,clave, saldo);
-									tarjetaService.registroTarjeta(tarjeta);
+									System.out.println(usuarioService.recorrerArray(email));
 										
-										
-									System.out.println("Saldo es de " + saldo);
-										
+									}
+									
+									
+									
 										
 								
 								}// fin del if 
 								
-								 if(opcionesFuncionalidades == 4 ) {
-									 
-									String claveSeguridad = JOptionPane.showInputDialog("Ingrese la clave de seguridad de la tarjeta que desea eliminar ");
-									 
-									tarjetaService.eliminarTarjetaPorClave(claveSeguridad);
-									 
-									 
-									 
-								 }
-								 
-								 if(opcionesFuncionalidades == 5) {
-									 
-		
-									 
-									int numeroDeCuenta = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el numero de cuenta de la tarjeta destinataria a la que "
-											+ "desea transferir: "));
-									
-									 String claveSeguridad = JOptionPane.showInputDialog("Ingrese clave de seguridad de la tarjeta origen de la transferencia:  ");
-									 
-									 double montoATransferir = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el monto a transferir: "));
-									 
-									 
-									 
-									 tarjetaService.transferirDinero(montoATransferir, claveSeguridad, numeroDeCuenta);
-									 
-									
-									 
-									 
-									 
-								 }
 								
 							
 							
 							
 							
-							 opcionesFuncionalidades = Integer.parseInt(JOptionPane.showInputDialog("Si desea editar su email y/o password ingrese - 1 - \n"
+							 opcionesFuncionalidades = JOptionPane.showInputDialog("Si desea editar su email y/o password ingrese - 1 - \n"
 										+ "Si desea eliminar su usuario ingrese - 2 - \n"
-										+ "Para ingresar una nueva tarjeta ingrese - 3 - \n"
-										+ "Para eliminar una tarjeta ingrese - 4 - \n"
-										+ "Para realizar una transferenica ingrese - 5 - \n"
-										+ "Para continuar ingrese - 6 - "));
+										+ "Para pagar un factura ingrese - 3 -  \n"
+										+ "Para continuar ingrese - 4 - ");
 							
 							
 						}//fin del while funcionalidades
@@ -184,8 +156,8 @@ import service.UsuarioService;
 				
 				
 				
-			opciones = Integer.parseInt(JOptionPane.showInputDialog("Para registrarse ingrese - 1 - \n"
-						+ "Para logearse ingrese - 2 - \n Para salir ingrese - 3 - "));
+			opciones = JOptionPane.showInputDialog("Para registrarse ingrese - 1 - \n"
+						+ "Para logearse ingrese - 2 - \n Para salir ingrese - 3 - ");
 				
 				
 				
@@ -203,5 +175,5 @@ import service.UsuarioService;
 		}
 
 	
-	}
+	
 

@@ -24,12 +24,12 @@ public class UsuarioService {
 	}
 	
 	
-	public boolean validarUsuario(Usuario usuario) {
+	public boolean validarUsuario(String email, String password) {
 		
 		for (Usuario usuarioFor : usuarios) {
 			
-			if(usuarioFor.getEmail().equalsIgnoreCase(usuario.getEmail()) &&
-					usuarioFor.getPassword().equalsIgnoreCase(usuario.getPassword())) {
+			if(usuarioFor.getEmail().equalsIgnoreCase(email) &&
+					usuarioFor.getPassword().equalsIgnoreCase(password)) {
 				
 				
 				return true;
@@ -44,24 +44,18 @@ public class UsuarioService {
 	}
 	
 	
-	public void editarUsuario(Usuario usuario) {
+	public void editarUsuario(String email, String password) {
 		
 		for (Usuario usuarioFor : usuarios) {
 			
-			if(usuarioFor.getEmail().equalsIgnoreCase(usuario.getEmail())) {
+			if(usuarioFor.getEmail().equalsIgnoreCase(email) && usuarioFor.getPassword().equalsIgnoreCase(password)) {
 				
-				usuarioFor.setEmail(JOptionPane.showInputDialog("Ingrese un email nuevo: "));
-				usuarioFor.setPassword(JOptionPane.showInputDialog("Ingrese un password nuevo: "));
+				usuarioFor.setEmail(email);
+				usuarioFor.setPassword(password);
 				
-				
-				
-			}else {
-				
-				System.out.println("Usuario incorrecto. Por favor ingrese un usuario valido: ");
 				
 				
 			}
-			
 			
 		}
 		
@@ -88,6 +82,30 @@ public class UsuarioService {
 		
 	}
 	
+	public String recorrerArray(String email) {
+		
+		
+		for( Usuario usuario : usuarios){
+			
+			if(usuario.getEmail().equalsIgnoreCase(email)) {
+				
+				
+				return usuario.getEmail();
+				
+				
+				
+			}
+		
+			
+		}
+		
+		return "";
+		
+	}
+	
+	
+	
+
 
 	
 	
