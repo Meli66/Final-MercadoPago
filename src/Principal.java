@@ -5,8 +5,9 @@ import javax.swing.JOptionPane;
 
 
 import dominio.Usuario;
-
+import dominio.Factura;
 import service.UsuarioService;
+import service.FacturaService;
 
 
 	public class Principal {
@@ -17,45 +18,26 @@ import service.UsuarioService;
 		public static void main (String[] Args) {
 			
           
-          String opciones;
+         
          
 			UsuarioService usuarioService = new UsuarioService();
+			FacturaService facturaService = new FacturaService();
+			
+			Usuario meli = new Usuario("melisa@gmail.com", "123", 20000);
+			Usuario flor = new Usuario("flor@gmail.com", "456", 30000);
+			
+			usuarioService.registroUsuario(meli);
+			usuarioService.registroUsuario(flor);
 			
 			
-			
-			
-			opciones = JOptionPane.showInputDialog("Bienvedino a Mercado Pago! \n Para registrarse ingrese - 1 - \n"
-					+ "Para logearse ingrese - 2 - \n Para salir ingrese - 3 - ");
+			String opciones = JOptionPane.showInputDialog("Bienvedino a Mercado Pago! \n Para logearse - 1 - \n"
+					+"\n Para salir ingrese - 3 - ");
 			
 			
 			
 			  while(!opciones.equalsIgnoreCase("3")) {
 				
-				
-				
-				if(opciones.equalsIgnoreCase("1")) {
-					
-					
-					String email = JOptionPane.showInputDialog("Ingrese un email: ");
-					String password = JOptionPane.showInputDialog("Ingrese un password: ");
-					double saldo = Double.parseDouble(JOptionPane.showInputDialog("Ingrese su saldo disponible: "));
-					
-				  Usuario usuario = new Usuario(email, password, saldo);
-				  
-					
-					 String mensajeOperacionExitosa = usuarioService.registroUsuario(usuario);
-					
-					
-					System.out.println(mensajeOperacionExitosa);
-					
-					
-					
-					
-					
-				}// fin del if registro opcion 1
-				
-				
-				if (opciones.equalsIgnoreCase("2")) {
+					 if (opciones.equalsIgnoreCase("1")) {
 					
 					String email = JOptionPane.showInputDialog("Ingrese un email: ");
 					String password = JOptionPane.showInputDialog("Ingrese un password: ");
@@ -100,6 +82,7 @@ import service.UsuarioService;
 							if(opcionesFuncionalidades.equalsIgnoreCase("2")) {
 								
 								
+								
 								usuarioService.eliminarUsuarioPorEmail(email);
 								
 							
@@ -111,35 +94,58 @@ import service.UsuarioService;
 								
 								if(opcionesFuncionalidades.equalsIgnoreCase("3")) {
 									
-									email = JOptionPane.showInputDialog("Ingrese el email del usuario con el cual desea abonar");
+									email = JOptionPane.showInputDialog("Ingrese el email del usuario con el cual desea abonar: ");
+								String	tipo = JOptionPane.showInputDialog("Ingrese el tipo de servicio que desea abonar: ");
 									
-									System.out.println(usuarioService.recorrerArray(email));
+									if(email.equalsIgnoreCase(meli.getEmail())) {
 										
-									}
+										Factura factura = new Factura (tipo);
+								
+										double precioAPagar = facturaService.pagarFacturaDeLuz(factura);
+										
+										
+											
+										if(meli.getSaldo() >= precioAPagar) {
+											
+											
+											meli.setSaldo(meli.getSaldo() - precioAPagar);
+											
+											
+											System.out.println(precioAPagar);
+											System.out.println("Su factura esta paga, su saldo disponible es de : " + meli.getSaldo());
+											
+										}else {
+											
+										  System.out.println("Tu saldo disponible no es suficiente.");
+											
+										}
+											
+											
+								  }
+									
+								}
 									
 									
+								
+								
 									
+									
+
+								 opcionesFuncionalidades = JOptionPane.showInputDialog("Si desea editar su email y/o password ingrese - 1 - \n"
+											+ "Si desea eliminar su usuario ingrese - 2 - \n"
+											+ "Para pagar un factura ingrese - 3 -  \n"
+											+ "Para continuar ingrese - 4 - ");	
 										
 								
-								}// fin del if 
+								} //fin del while funcionalidades
 								
 								
 							
 							
 							
 							
-							 opcionesFuncionalidades = JOptionPane.showInputDialog("Si desea editar su email y/o password ingrese - 1 - \n"
-										+ "Si desea eliminar su usuario ingrese - 2 - \n"
-										+ "Para pagar un factura ingrese - 3 -  \n"
-										+ "Para continuar ingrese - 4 - ");
 							
-							
-						}//fin del while funcionalidades
-						
-						
-						
-						
-					
+				
 						
 					}else {
 						
@@ -147,32 +153,36 @@ import service.UsuarioService;
 						
 					} //fin del if else validar 
 					
+				
+					
+					 }// fin primer if		
 					
 					
-				}//fin del if validacion logeo opcion 2
+				opciones = JOptionPane.showInputDialog("Bienvedino a Mercado Pago! \n Para logearse - 1 - \n"
+						+"\n Para salir ingrese - 3 - ");
+					
+					
+					
+				}// fin del while logear y registrar
 				
 				
 				
 				
 				
+		
 				
-			opciones = JOptionPane.showInputDialog("Para registrarse ingrese - 1 - \n"
-						+ "Para logearse ingrese - 2 - \n Para salir ingrese - 3 - ");
-				
-				
-				
-			} // fin del while logear y registrar
+			} 
+			
+			
+	}	
+			
+			
+	
+
 			
 			
 			
-			
-			
-		 
-			
-			
-			
-			
-		}
+	
 
 	
 	

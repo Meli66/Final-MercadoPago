@@ -15,11 +15,11 @@ public class UsuarioService {
 	
 	
 	
-	public String registroUsuario(Usuario usuario) {
+	public void registroUsuario(Usuario usuario) {
 		
 		usuarios.add(usuario);
 		
-		return "El usuario con mail " + usuario.getEmail() + " fue registrado exitosamente!";
+		
 		
 	}
 	
@@ -82,27 +82,7 @@ public class UsuarioService {
 		
 	}
 	
-	public String recorrerArray(String email) {
-		
-		
-		for( Usuario usuario : usuarios){
-			
-			if(usuario.getEmail().equalsIgnoreCase(email)) {
-				
-				
-				return usuario.getEmail();
-				
-				
-				
-			}
-		
-			
-		}
-		
-		return "";
-		
-	}
-	
+
 	
 	
 

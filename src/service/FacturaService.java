@@ -13,7 +13,7 @@ public class FacturaService {
 
 	
 	
-	public String pagarFacturaDeLuz(Factura factura, String email) {
+	public double pagarFacturaDeLuz(Factura factura) {
 		
 		int inicioDelMedidor;
 		int finalDelMedidor;
@@ -33,35 +33,40 @@ public class FacturaService {
 				
 			 precioAPagar = 45.3;
 			
-			
+			return precioAPagar;
+			 
+			 
 			}else {
 				
 				precioAPagar = 45.3 + (cantidadKW - 120) * 1.5;
 				
+				return precioAPagar;
+				
 			}
 			
 			
-		
-			
-			
-			
 		}
-		
-		
-		
-		return "Ingrese un servicio valido";
-		
 	
 		
-	}
-		
-		
-		
-		
-	}
-	
+		return 0;
 	
 	}
 	
 	
+	
+
+
+
+
+
+
+
+
+
+
+
+
 }
+	
+	
+
