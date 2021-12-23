@@ -45,23 +45,23 @@ public class Usuario {
 	
 
 	
-	public String setEmail(String email) {
+	public void setEmail(String email) {
 		
-		return email;
+		this.email = email;
 		
 	}
 
 
-	public String setPassword(String password) {
+	public void setPassword(String password) {
 		
-		return password;
+		this.password = password;
 		
 	}
 	
 	
-	public double setSaldo(double saldo) {
+	public void setSaldo(double saldo) {
 		
-		return saldo;
+		this.saldo = saldo;
 		
 	}
 	

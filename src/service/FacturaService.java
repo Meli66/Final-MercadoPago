@@ -13,7 +13,7 @@ public class FacturaService {
 
 	
 	
-	public double pagarFactura(Factura factura) {
+	public String pagarFactura(Factura factura, Usuario usuario) {
 		
 		int inicioDelMedidor;
 		int finalDelMedidor;
@@ -32,15 +32,33 @@ public class FacturaService {
 			if (cantidadKW <= 120) {
 				
 			 precioAPagar = 45.3;
+			 
+			 if(usuario.getSaldo() >= precioAPagar) {
+				 
+				 usuario.setSaldo(usuario.getSaldo() - precioAPagar);
+				
+				 return "El pago de su factura se ha realizado con exito, su saldo actual es de: " + usuario.getSaldo();
+				 
+			 }else {
+				 
+				 return " Saldo insuficiente";
+				 
+			 }
 			
-			return precioAPagar;
+			
 			 
 			 
-			}else {
+			}else if(cantidadKW > 120){
 				
 				precioAPagar = 45.3 + (cantidadKW - 120) * 1.5;
 				
-				return precioAPagar;
+				 usuario.setSaldo(usuario.getSaldo() - precioAPagar);
+				
+				 return "El pago de su factura se ha realizado con exito, su saldo actual es de: " + usuario.getSaldo();
+				
+			}else {
+				
+				 return " Saldo insuficiente";
 				
 			}
 			
@@ -48,7 +66,7 @@ public class FacturaService {
 		}
 	
 		
-		return 0;
+		return null;
 	
 	}
 	

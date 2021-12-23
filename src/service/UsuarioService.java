@@ -82,6 +82,25 @@ public class UsuarioService {
 		
 	}
 	
+	
+	
+	public Usuario buscarUsuario(String email) {
+		
+for (Usuario usuarioFor : usuarios) {
+			
+			if(usuarioFor.getEmail().equalsIgnoreCase(email)) {
+				
+			  return usuarioFor;
+				
+			}
+				
+		}
+		
+		
+		return null;
+		
+	}
+	
 
 	
 	

@@ -38,9 +38,9 @@ public class Celular {
 	}
 	
 	
-	public double setSaldo(double saldo) {
+	public void setSaldo(double saldo) {
 		
-		return saldo;
+		this.saldo = saldo;
 		
 	}
 	

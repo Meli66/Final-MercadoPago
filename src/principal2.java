@@ -2,9 +2,11 @@ import javax.swing.JOptionPane;
 
 import dominio.Celular;
 import dominio.Factura;
+import dominio.Transporte;
 import dominio.Usuario;
 import service.CelularService;
 import service.FacturaService;
+import service.TransporteService;
 import service.UsuarioService;
 
 public class principal2 {
@@ -15,20 +17,39 @@ public class principal2 {
 		UsuarioService usuarioService = new UsuarioService();
 		FacturaService facturaService = new FacturaService();
 		CelularService celularService = new CelularService();
+		TransporteService transporteService = new TransporteService();
+	
 		
-		Usuario meli = new Usuario("meli@gmail.com","123",20000);
-		Usuario flor = new Usuario("flor@gmail.com","456",25000);
+		 String opciones = JOptionPane.showInputDialog("Bienvenido Mercado Pago! Para registrarse ingrese 1"
+	    		+ "\n Para logearse ingrese 2"
+				+ "\n Para editar un usuario ingrese 3"
+				+ "\n Para eliminar un usuario ingrese 4"
+				+ "\n Para pagar una factura ingrese 5"
+				+ "\n Para realizar una recarga celular ingrese 6"
+				+ "\n Para cargar pase de transporte ingrese 7"
+				+ "\n Para salir ingrese 8");
+				
 		
 		
-		String opciones = JOptionPane.showInputDialog("Bienvenido Mercado Pago, para logearse ingrese 1, para editar usuario ingrese 2,"
-				+ "\n para eliminar un usuario ingrese 3, para pagar una factura ingrese 4, para realizar una recarga ingrese 5, para salir ingrese 6 ");
+		
+		 while(!opciones.equalsIgnoreCase("8")) {	
 		
 		
-		while(!opciones.equalsIgnoreCase("6")) {
-		
-		
-		
-		if(opciones.equalsIgnoreCase("1")) {
+			
+			
+			
+			if(opciones.equalsIgnoreCase("1")) {
+				
+				String email = JOptionPane.showInputDialog("Ingrese un email");
+				String password = JOptionPane.showInputDialog("Ingrese un password");
+				double saldo = Double.parseDouble(JOptionPane.showInputDialog("Ingrese su saldo disponible"));
+				
+			    usuarioService.registroUsuario(new Usuario(email,password,saldo));
+			    
+			
+			    
+			    
+			}else  if(opciones.equalsIgnoreCase("2")) {
 			
 			String email = JOptionPane.showInputDialog("Ingrese su email");
 			String password = JOptionPane.showInputDialog("Ingrese su password");
@@ -41,16 +62,12 @@ public class principal2 {
 				
 				System.out.print(" El usuario " + email + " fue logeado exitosamente.");
 				
+				
 			}
 			
 			
 			
-		}//segundo if
-		
-		
-		
-		
-		if(opciones.equalsIgnoreCase("2")) {
+		}else if(opciones.equalsIgnoreCase("3")) {
 			
 			String email = JOptionPane.showInputDialog("Ingrese su email");
 			String password = JOptionPane.showInputDialog("Ingrese su password");
@@ -60,13 +77,7 @@ public class principal2 {
 			System.out.println("Su usuario ha sido editado exitosamente");
 			
 			
-		}
-		
-		
-		
-		
-		
-		if(opciones.equalsIgnoreCase("3")) {
+		}else if(opciones.equalsIgnoreCase("4")) {
 			
 			
 			String email = JOptionPane.showInputDialog("Ingrese su email");
@@ -75,66 +86,24 @@ public class principal2 {
 			
 			System.out.println("Su usuario ha sido eliminado exitosamente");
 			
-		}
-		
-		
-		
-		if(opciones.equalsIgnoreCase("4")) {
+		} else if(opciones.equalsIgnoreCase("5")) {
 			
 			
 			String email = JOptionPane.showInputDialog("Ingrese el email del usuario con el que desea abonar");
-			String tipo = JOptionPane.showInputDialog("Ingrese el tipo de factura que desea abonar: Luz, Gas");
-			
-			if(email.equalsIgnoreCase(meli.getEmail())){
-			
-			Factura factura = new Factura (tipo);
-			
-			
-			double precioAPagar = facturaService.pagarFactura(factura);
-			
-			
-			   if(meli.getSaldo() >= precioAPagar) {
-				   
-				   meli.setSaldo(meli.getSaldo() - precioAPagar);
-				   
-				   
-			   }
-			
-			   
-			   System.out.println("saldo meli" + meli.getSaldo());
-			
-			
-			}else if(email.equalsIgnoreCase(flor.getEmail())){
-				
-				Factura factura = new Factura (tipo);
-				
-				
-				double precioAPagar = facturaService.pagarFactura(factura);
-				
-				
-				   if(flor.getSaldo() >= precioAPagar) {
-					   
-					   flor.setSaldo(flor.getSaldo() - precioAPagar);
-					   
-					   
-				   }
-				
-				   System.out.println("saldo flor" + flor.getSaldo());
-				
-			}
+			String tipo = JOptionPane.showInputDialog("Ingrese el tipo de factura que desea abonar(Ej: Luz)");
 			
 		
+				Factura factura = new Factura(tipo);
+				Usuario usuario = usuarioService.buscarUsuario(email);
+				
+			System.out.println(facturaService.pagarFactura(factura, usuario));
 			
 			
-		}// if 4
-		
-		
-		
-		if(opciones.equalsIgnoreCase("5")) {
+		}else if(opciones.equalsIgnoreCase("6")) {
 			
 			
 			String numero = JOptionPane.showInputDialog("Ingrese su numero de celular");
-			String empresa = JOptionPane.showInputDialog("Ingrese la empresa de su celular");
+			String empresa = JOptionPane.showInputDialog("Ingrese la empresa de su celular(Ej: movistar)");
 			double saldo = Double.parseDouble(JOptionPane.showInputDialog("Ingrese su saldo disponible actual"));
 			
 			Celular celular = new Celular(numero,empresa,saldo);
@@ -146,13 +115,36 @@ public class principal2 {
 			
 			
 			
+		}else if(opciones.equalsIgnoreCase("7")) {
+			
+			
+			String red = JOptionPane.showInputDialog("Ingrese la red del transporte");
+			double saldo = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el saldo actual de su pase"));
+			double monto = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el monto que desea cargar"));
+			
+			Transporte transporte = new Transporte(red,saldo);
+			
+			System.out.println(transporteService.cargarPase(transporte, monto));
+			
+			
 		}
 		
+	
 		
-		
-		
-		
-		
+		 
+		 
+		  opciones = JOptionPane.showInputDialog("Bienvenido Mercado Pago! Para registrarse ingrese 1"
+		    		+ "\n Para logearse ingrese 2"
+					+ "\n Para editar un usuario ingrese 3"
+					+ "\n Para eliminar un usuario ingrese 4"
+					+ "\n Para pagar una factura ingrese 5"
+					+ "\n Para realizar una recarga celular ingrese 6"
+					+ "\n Para cargar pase de transporte ingrese 7"
+					+ "\n Para salir ingrese 8");
+		 
+		 
+		 
+		 
 		}//fin del while
 		
 		
