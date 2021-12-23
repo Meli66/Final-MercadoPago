@@ -13,7 +13,7 @@ public class FacturaService {
 
 	
 	
-	public double pagarFacturaDeLuz(Factura factura) {
+	public double pagarFactura(Factura factura) {
 		
 		int inicioDelMedidor;
 		int finalDelMedidor;
