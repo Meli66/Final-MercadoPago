@@ -1,13 +1,14 @@
 package dominio;
 
 public class Factura {
-	
-	private String tipo;
-	
 
-	public Factura(String tipo) {
+	private String tipo;
+	private String empresa;
+
+	public Factura(String tipo, String empresa) {
 
 		this.tipo = tipo;
+		this.empresa = empresa;
 
 	}
 
@@ -15,6 +16,11 @@ public class Factura {
 
 		return tipo;
 
+	}
+
+	public String getEmpresa() {
+
+		return empresa;
 	}
 
 }
